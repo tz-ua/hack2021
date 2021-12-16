@@ -48,6 +48,11 @@
  *     description="Tutorial Step",
  * )
  *
+ * @OA\Tag(
+ *     name="Article",
+ *     description="Project Article describing any specific feature",
+ * )
+ *
  */
 
 /**

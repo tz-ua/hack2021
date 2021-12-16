@@ -39,7 +39,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return Project::with('tutorials.steps')->get();
+        return Project::with(['tutorials.steps', 'articles'])->get();
     }
 
     /**
@@ -137,7 +137,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        return Project::findOrFail($id)->loadMissing('tutorials.steps');
+        return Project::findOrFail($id)->loadMissing(['tutorials.steps', 'articles']);
     }
 
     /**

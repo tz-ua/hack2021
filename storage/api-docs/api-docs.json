@@ -13,6 +13,389 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/projects/{projectId}/articles": {
+            "get": {
+                "tags": [
+                    "Article"
+                ],
+                "summary": "Returns list of availble articles for a project",
+                "description": "Returns list of availble articles for a project",
+                "operationId": "api.articles.index",
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "description": "Id of Project",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ApiResponse"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Article"
+                ],
+                "summary": "Store new Article for a project",
+                "description": "Store new Article for a project",
+                "operationId": "api.articles.store",
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "description": "Id of Project",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Article payload",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "description": "Article title",
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "minLength": 1,
+                                        "example": "My New Article"
+                                    },
+                                    "content": {
+                                        "description": "Article content",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "heading-one"
+                                                },
+                                                "children": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "text": {
+                                                                "type": "string",
+                                                                "example": "Article title"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "example": "heading-one"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "example": [
+                                            {
+                                                "type": "heading-one",
+                                                "children": [
+                                                    {
+                                                        "text": "Article title"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "type": "paragraph",
+                                                "children": [
+                                                    {
+                                                        "text": "This is editable",
+                                                        "bold": true,
+                                                        "italic": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "type": "bulleted-list",
+                                                "children": [
+                                                    {
+                                                        "type": "list-item",
+                                                        "children": [
+                                                            {
+                                                                "text": "test"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ApiResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/articles/{id}": {
+            "get": {
+                "tags": [
+                    "Article"
+                ],
+                "summary": "Get Article",
+                "description": "Get specific Article",
+                "operationId": "api.articles.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of Article",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ApiResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Article"
+                ],
+                "summary": "Delete Article by identifier",
+                "description": "Delete Article by identifier",
+                "operationId": "api.articles.destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Article identifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successfull operation"
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Article"
+                ],
+                "summary": "Update Article",
+                "description": "Update existing Article",
+                "operationId": "api.articles.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Updated Article identifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Article payload",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "description": "Article title",
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "minLength": 1,
+                                        "example": "My New Article"
+                                    },
+                                    "content": {
+                                        "description": "Article content",
+                                        "type": "string",
+                                        "example": [
+                                            {
+                                                "type": "heading-one",
+                                                "children": [
+                                                    {
+                                                        "text": "Article title"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "type": "paragraph",
+                                                "children": [
+                                                    {
+                                                        "text": "This is editable",
+                                                        "bold": true,
+                                                        "italic": true
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "type": "bulleted-list",
+                                                "children": [
+                                                    {
+                                                        "type": "list-item",
+                                                        "children": [
+                                                            {
+                                                                "text": "test"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ApiResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/projects": {
             "get": {
                 "tags": [
@@ -283,8 +666,8 @@
                 "tags": [
                     "Step"
                 ],
-                "summary": "Returns list of availble steps for a project",
-                "description": "Returns list of availble steps for a project",
+                "summary": "Returns list of availble steps for a tutorial",
+                "description": "Returns list of availble steps for a tutorial",
                 "operationId": "api.steps.index",
                 "parameters": [
                     {
@@ -359,6 +742,11 @@
                                         "maxLength": 255,
                                         "minLength": 1,
                                         "example": "My New Step"
+                                    },
+                                    "order": {
+                                        "description": "Step order",
+                                        "type": "integer",
+                                        "example": "1"
                                     },
                                     "content": {
                                         "description": "Step content",
@@ -565,6 +953,11 @@
                                         "maxLength": 255,
                                         "minLength": 1,
                                         "example": "My New Step"
+                                    },
+                                    "order": {
+                                        "description": "Step order",
+                                        "type": "integer",
+                                        "example": "1"
                                     },
                                     "content": {
                                         "description": "Step content",
@@ -941,6 +1334,10 @@
         {
             "name": "Step",
             "description": "Tutorial Step"
+        },
+        {
+            "name": "Article",
+            "description": "Project Article describing any specific feature"
         }
     ],
     "security": [

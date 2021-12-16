@@ -17,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('projects', \App\Http\Controllers\ProjectController::class);
 Route::apiResource('projects.tutorials', \App\Http\Controllers\TutorialsController::class)->shallow();
 Route::apiResource('tutorials.steps', \App\Http\Controllers\StepsController::class)->shallow();
+Route::apiResource('projects.articles', \App\Http\Controllers\ArticleController::class)->shallow();

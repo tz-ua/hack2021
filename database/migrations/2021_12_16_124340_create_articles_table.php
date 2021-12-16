@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStepsTable extends Migration
+class CreateArticlesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateStepsTable extends Migration
      */
     public function up()
     {
-        Schema::create('steps', function (Blueprint $table) {
+        Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->integer('tutorial_id');
+            $table->integer('project_id');
             $table->string('title');
             $table->json('content');
-            $table->integer('order')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateStepsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('steps');
+        Schema::dropIfExists('articles');
     }
 }

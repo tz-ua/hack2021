@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Step extends Model
+class Article extends Model
 {
     use HasFactory;
 
@@ -16,8 +16,7 @@ class Step extends Model
     protected $fillable = [
         'title',
         'content',
-        'order',
-        'tutorial_id',
+        'project_id',
     ];
 
     /**
@@ -26,15 +25,14 @@ class Step extends Model
     protected $casts = [
         'title'         => 'string',
         'content'       => 'json',
-        'order'         => 'int',
-        'tutorial_id'   => 'int',
+        'project_id'    => 'int',
     ];
 
     /**
      * @return BelongsTo
      */
-    public function tutorial(): BelongsTo
+    public function project(): BelongsTo
     {
-        return $this->belongsTo(Tutorial::class, 'tutorial_id', 'id');
+        return $this->belongsTo(Project::class, 'project_id', 'id');
     }
 }

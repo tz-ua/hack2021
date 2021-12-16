@@ -38,4 +38,12 @@ class Project extends Model
     {
         return $this->hasMany(Tutorial::class, 'project_id', 'id');
     }
+
+    /**
+     * @return HasMany
+     */
+    public function articles(): HasMany
+    {
+        return $this->hasMany(Article::class, 'project_id', 'id');
+    }
 }
