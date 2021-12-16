@@ -236,6 +236,8 @@ class StepsController extends Controller
      */
     public function stepsMany(Request $request, Tutorial $tutorial)
     {
+        $tutorial->steps()->delete();
+
         $steps = [];
 
         $stepsData = $request->input();
