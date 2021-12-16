@@ -147,6 +147,113 @@ class StepsController extends Controller
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/tutorials/{tutorialId}/steps-many",
+     *     tags={"Step"},
+     *     operationId="api.steps.store.many",
+     *     summary="Store many Steps for a Tutorial",
+     *     description="Store many Steps for a Tutorial",
+     *     @OA\Parameter(
+     *          name="tutorialId",
+     *          description="Id of Tutorial",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          ),
+     *      ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Step payload",
+     *         @OA\JsonContent(
+     *          type="array",
+     *          example={{"title": "Step 1", "order": 1, "content": {"type": "heading-one","children": {{"text": "Article title"}}},}},
+     *          @OA\Items(
+     *          @OA\Property(
+     *              property="title",
+     *              description="Step title",
+     *              type="string",
+     *              example="My New Step",
+     *              minLength=1,
+     *              maxLength=255
+     *          ),
+     *          @OA\Property(
+     *              property="order",
+     *              description="Step order",
+     *              type="integer",
+     *              example="1",
+     *          ),
+     *          @OA\Property(
+     *              property="content",
+     *              description="Step content",
+     *              type="array",
+     *              example={{"type": "heading-one","children": {{"text": "Article title"}}},},
+     *              @OA\Items(
+     *                  @OA\Property(
+     *                      property="type",
+     *                      type="string",
+     *                      example="heading-one"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="children",
+     *                      type="array",
+     *                      example="heading-one",
+     *                      @OA\Items(
+     *                          @OA\Property(
+     *                              property="text",
+     *                              type="string",
+     *                              example="Article title"
+     *                          ),
+     *                      )
+     *                  ),
+     *              )
+     *          )
+     *          )
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successfull operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                property="data",
+     *                type="object",
+     *                ref="#/components/schemas/ApiResponse"
+     *             )
+     *        )
+     *     ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiResponse"),
+     *      ),
+     * )
+     *
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function stepsMany(Request $request, Tutorial $tutorial)
+    {
+        $steps = [];
+
+        $stepsData = $request->input();
+        if (!empty($stepsData)) {
+            foreach ($stepsData as $stepData) {
+                $steps[] = Step::create([
+                    'title' => $stepData['title'] ?? null,
+                    'order' => $stepData['order'] ?? null,
+                    'content' => $stepData['content'] ?? null,
+                    'tutorial_id' => $tutorial->id
+                ]);
+            }
+        }
+
+        return $steps;
+    }
+
+    /**
      * @OA\Get(
      *      path="/api/steps/{id}",
      *      operationId="api.steps.show",

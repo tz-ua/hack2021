@@ -819,6 +819,132 @@
                 }
             }
         },
+        "/api/tutorials/{tutorialId}/steps-many": {
+            "post": {
+                "tags": [
+                    "Step"
+                ],
+                "summary": "Store many Steps for a Tutorial",
+                "description": "Store many Steps for a Tutorial",
+                "operationId": "api.steps.store.many",
+                "parameters": [
+                    {
+                        "name": "tutorialId",
+                        "in": "path",
+                        "description": "Id of Tutorial",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Step payload",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "title": {
+                                            "description": "Step title",
+                                            "type": "string",
+                                            "maxLength": 255,
+                                            "minLength": 1,
+                                            "example": "My New Step"
+                                        },
+                                        "order": {
+                                            "description": "Step order",
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "content": {
+                                            "description": "Step content",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "type": {
+                                                        "type": "string",
+                                                        "example": "heading-one"
+                                                    },
+                                                    "children": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "text": {
+                                                                    "type": "string",
+                                                                    "example": "Article title"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "example": "heading-one"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "example": [
+                                                {
+                                                    "type": "heading-one",
+                                                    "children": [
+                                                        {
+                                                            "text": "Article title"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "example": [
+                                {
+                                    "title": "Step 1",
+                                    "order": 1,
+                                    "content": {
+                                        "type": "heading-one",
+                                        "children": [
+                                            {
+                                                "text": "Article title"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfull operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ApiResponse"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/steps/{id}": {
             "get": {
                 "tags": [
